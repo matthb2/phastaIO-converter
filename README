@@ -1,0 +1,25 @@
+PHASTA-IO Conversion Tools. See http://redmine.scorec.rpi.edu/projects/phasta
+
+To build,
+
+git clone --recursive git://github.com/matthb2/phastaIO-converter.git
+mkdir converter-build
+CC=gcc CXX=g++ FC=gfortran cmake -DCMAKE_BUILD_TYPE=Debug ../phastaIO-converter
+make
+
+To run, we first need to decide on some settings,
+
+Number_of_parts = the number of PHASTA parts in your case. This is currently always equal to the number of PHASTA processes you will run. You should have a subdirectory n_procs-case where n is Number_of_parts
+
+Number_of_files = The number of files in the converted output. Number_of_parts moduluo Number_of_files must be zero.
+
+Number_of_processes = The number of converter processes you need to run. This must be an integer multiple of Number_of_files no larger than Number_of_parts. 
+
+Timestep = The starting timestep from which you want to convert. Usually 0
+
+Then change directories to your case directory and run 
+
+phastaIO-converter/create_IO_O2N_input.sh Timestep Number_of_parts Number_of_files
+mpirun -np Number_of_processes converter-build/bin/converterO2N
+
+Obviously, you may need to adjust the paths. phastaIO-converter is assumed to be the path to this repository. converter-build is assumed to be the path to your build directory.

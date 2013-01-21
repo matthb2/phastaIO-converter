@@ -1,9 +1,17 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8.5)
-PROJECT(PHASTA C CXX )
+PROJECT(PHASTA C CXX Fortran )
+enable_language(Fortran)
 enable_language(C)
 enable_language(CXX)
 
 list(APPEND CMAKE_MODULE_PATH ${PHASTA_SOURCE_DIR}/CMakeFiles)
+
+#Handle Fortran name mangling
+include(FortranCInterface)
+FortranCInterface_VERIFY(CXX)
+FortranCInterface_Header(FCMangle.h SYMBOLS write_restart write_error
+write_displ write_field write_hessian)
+include_directories("${PHASTA_BINARY_DIR}")
 
 IF(${CMAKE_BUILD_TYPE} MATCHES "Debug" )
   ADD_DEFINITIONS( -DDEBUG )
@@ -53,4 +61,4 @@ add_subdirectory(phastaIO)
 include_directories("${PHASTA_SOURCE_DIR}/phastaIO")
 
 add_subdirectory(converterIO)
-add_subdirectory(syncio-test)
+add_subdirectory(syncio-tester)

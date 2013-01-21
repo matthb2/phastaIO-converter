@@ -1,0 +1,6 @@
+[submodule "converterIO"]
+	path = converterIO
+	url = gitolite@ps.kc2vjw.com:converterIO
+[submodule "phastaIO"]
+	path = phastaIO
+	url = git://github.com/matthb2/phastaIO.git
